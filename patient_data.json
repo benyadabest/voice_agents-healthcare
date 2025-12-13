@@ -1,0 +1,220 @@
+{
+  "profiles": {
+    "default": {
+      "id": "default",
+      "name": "John Doe",
+      "age": 51,
+      "gender": "Female",
+      "race": "Caucasian",
+      "height": "6'3\"",
+      "weight": "209 lbs",
+      "city": "Boston",
+      "state": "MA",
+      "cancer_type": "Colorectal Adenocarcinoma",
+      "diagnosis_date": "2024-01-15",
+      "first_occurrence": true,
+      "stage": "IIIA",
+      "measurable_disease": {
+        "is_measurable": true,
+        "description": "Primary mass in sigmoid colon, approx 5cm"
+      },
+      "tumor_markers_found": [
+        "CEA",
+        "CA-125"
+      ],
+      "tumor_markers_ruled_out": [
+        "KRAS"
+      ],
+      "family_history": "Father: Lung Cancer (Smoker)\nMother: No cancer history",
+      "prior_therapies": [],
+      "current_treatment": {
+        "is_active": true,
+        "regimen": "Carboplatin + Pemetrexed"
+      },
+      "ecog_score": 2,
+      "smoking_history": {
+        "pack_years": 15.0,
+        "quit_date": "2020-01-01"
+      },
+      "alcohol_consumption": "Occasional social drinker",
+      "concerns": "Worried about fatigue affecting work.",
+      "prognosis_preference": "neutral",
+      "medical_records_text": "Pathology confirmed Colorectal Adenocarcinoma. Patient initiated on Carboplatin + Pemetrexed. Tolerating well so far."
+    },
+    "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348": {
+      "id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+      "name": "Sarah Jane",
+      "age": 81,
+      "gender": "Female",
+      "race": "Asian",
+      "height": "6'0\"",
+      "weight": "193 lbs",
+      "city": "Boston",
+      "state": "MA",
+      "cancer_type": "Lung Adenocarcinoma",
+      "diagnosis_date": "2024-01-15",
+      "first_occurrence": true,
+      "stage": "IIB",
+      "measurable_disease": {
+        "is_measurable": true,
+        "description": "Primary mass in sigmoid colon, approx 2cm"
+      },
+      "tumor_markers_found": [
+        "CEA",
+        "PD-L1 > 50%"
+      ],
+      "tumor_markers_ruled_out": [
+        "EGFR",
+        "ALK"
+      ],
+      "family_history": "Father: Lung Cancer (Smoker)\nMother: No cancer history",
+      "prior_therapies": [],
+      "current_treatment": {
+        "is_active": true,
+        "regimen": "AC-T (Doxorubicin + Cyclophosphamide -> Paclitaxel)"
+      },
+      "ecog_score": 1,
+      "smoking_history": {
+        "pack_years": 25.0,
+        "quit_date": "2020-01-01"
+      },
+      "alcohol_consumption": "Occasional social drinker",
+      "concerns": "Worried about fatigue affecting work.",
+      "prognosis_preference": "neutral",
+      "medical_records_text": "Pathology confirmed Lung Adenocarcinoma. Patient initiated on AC-T (Doxorubicin + Cyclophosphamide -> Paclitaxel). Tolerating well so far."
+    }
+  },
+  "sessions": [],
+  "events": {
+    "default": [],
+    "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348": [
+      {
+        "id": "b8eb6673-0427-49ea-81a1-b65da9d80a9c",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-11T06:20:14.995Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "Headache",
+            "severity": {
+              "value": 8,
+              "scale": "0_10",
+              "label": "user_reported"
+            },
+            "frequency": null,
+            "trend": "stable",
+            "rawAnswer": "N/A"
+          }
+        ]
+      },
+      {
+        "id": "18a3da3a-3e7d-48c5-be39-70bb25adfaf3",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-11T06:20:41.496Z",
+        "event_type": "wellness",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 5,
+        "anxiety": 1,
+        "notes": "N/A"
+      },
+      {
+        "id": "6e550be1-2342-4f5e-83fc-225112c5c481",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-11T06:28:10.194Z",
+        "event_type": "treatment",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "name": "Chemotherapy",
+        "description": "N/A"
+      },
+      {
+        "id": "86cadf7f-f657-4549-b950-64b96f2b0d59",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-11T06:28:33.565Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "Headache",
+            "severity": {
+              "value": 3,
+              "scale": "0_10",
+              "label": "user_reported"
+            },
+            "frequency": null,
+            "trend": "improving",
+            "rawAnswer": "N/A"
+          }
+        ]
+      },
+      {
+        "id": "30010061-2994-4f3e-93e1-a7cf91ace838",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-13T01:56:01.104Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "High Libido",
+            "severity": {
+              "value": 8,
+              "scale": "0_10",
+              "label": "user_reported"
+            },
+            "frequency": null,
+            "trend": "worsening",
+            "rawAnswer": "N/A"
+          }
+        ]
+      },
+      {
+        "id": "e84a7d3f-504e-4390-885d-c6b884e9cb97",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-13T02:24:17.935Z",
+        "event_type": "treatment",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "name": "Tylenol",
+        "description": "N/A"
+      },
+      {
+        "id": "0aa66f27-e884-4367-b1c5-08a492f01828",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-13T02:24:45.804Z",
+        "event_type": "wellness",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 5,
+        "anxiety": 6,
+        "notes": "N/A"
+      }
+    ]
+  },
+  "active_profile_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348"
+}

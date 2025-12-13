@@ -6,69 +6,128 @@ A developer-focused platform for prototyping and simulating voice-powered Remote
 
 ## 📊 Current Progress
 
-As of the latest build, the foundational **Developer Console** is fully operational with simulated agent logic.
+As of the latest build, the **Developer Console** features a complete data management and visualization loop.
 
 | Feature Area | Status | Description |
 | :--- | :---: | :--- |
 | **Patient Profile Builder** | ✅ Complete | Full CRUD form with default "John Doe" personas and live JSON context sync. |
-| **Frontend Architecture** | ✅ Complete | React + Vite + DaisyUI setup with tabbed navigation and responsive layout. |
-| **Backend API** | ✅ Complete | FastAPI endpoints for profile management and agent session handling. |
-| **Agent: Patient-Initiated** | ⚠️ Simulated | Recording UI exists; currently returns mock JSON analysis (STT/LLM pending). |
-| **Agent: AI-Initiated (Triage)** | ⚠️ Simulated | Functional Chat Simulator for testing logic; LiveKit voice integration pending. |
-| **Agent: Wellness Check** | ⚠️ Simulated | Functional Chat Simulator for testing logic; LiveKit voice integration pending. |
-| **AI Orchestration** | 🚧 In Progress | `chat_orchestrator.py` implements mock logic; LangGraph/DSPy integration is next. |
+| **Data Persistence** | ✅ Complete | JSON-based storage (`patient_data.json`) persists profiles and event history across restarts. |
+| **Event Timeline** | ✅ Complete | Longitudinal view of Symptoms, Wellness, and Treatments with manual entry forms. |
+| **Data Visualization** | ✅ Complete | Interactive Recharts graph plotting Symptom Severity trends overlaid with Treatment events. |
+| **Voice Agents (Chat)** | ✅ Complete | "Chat Simulator" interface for testing Agent logic (Symptom Triage & Wellness flows). |
+| **Voice Agents (Voice)** | ⚠️ Pending | WebRTC/LiveKit integration handles UI placeholders but not real audio streams yet. |
+| **AI Logic** | 🚧 In Progress | `chat_orchestrator.py` implements mock conversation flows; ready for LLM integration. |
+
+---
+
+## 🧬 Data Models & Schema
+
+The application uses strict Pydantic schemas (backend) and mapped TypeScript-like structures (frontend) to ensure clinical data integrity.
+
+### 1. Patient Profile
+A comprehensive snapshot of the patient's clinical state.
+```json
+{
+  "id": "uuid",
+  "cancer_type": "Lung Adenocarcinoma",
+  "stage": "IIIB",
+  "measurable_disease": { "is_measurable": true, "description": "RUL mass" },
+  "current_treatment": { "is_active": true, "regimen": "Carboplatin + Pemetrexed" },
+  "ecog_score": 1,
+  "tumor_markers_found": ["CEA", "PD-L1"],
+  "medical_records_text": "Free text notes..."
+}
+```
+
+### 2. Timeline Events (Longitudinal Data)
+The timeline supports polymorphic event types, all sharing a common `BaseEvent`.
+
+#### Symptom Event
+Captures patient-reported outcomes (PROs) with structured measurements.
+```json
+{
+  "event_type": "symptom",
+  "timestamp": "ISO-8601",
+  "measurements": [
+    {
+      "name": "Headache",
+      "severity": { "value": 7, "scale": "0_10" },
+      "trend": "worsening",
+      "rawAnswer": "It hurts behind my eyes"
+    }
+  ]
+}
+```
+
+#### Wellness Event
+Captures Quality of Life (QoL) metrics.
+```json
+{
+  "event_type": "wellness",
+  "mood": 4, // 1-5 Scale
+  "anxiety": 2 // 0-10 Scale
+}
+```
+
+#### Treatment Event
+Captures major clinical interventions for visualization overlay.
+```json
+{
+  "event_type": "treatment",
+  "name": "Chemotherapy Cycle 1",
+  "date": "YYYY-MM-DD",
+  "description": "Carboplatin/Pemetrexed"
+}
+```
 
 ---
 
 ## 🎯 Core Capabilities
 
 ### 1. Patient Profile Builder
-A comprehensive interface to create detailed, clinically relevant patient personas.
-- **Demographics & Context**: Age, cancer type (e.g., Lung Adenocarcinoma), stage (e.g., IIIB), and social determinants.
-- **Medical History**: Structured capture of prior therapies, current regimens (e.g., Carboplatin + Pemetrexed), and ECOG status.
-- **Live JSON Sync**: Changes in the form are immediately reflected in a structured JSON object, serving as the "ground truth" context for all AI agents.
+- **Rich Mock Data**: Automatically generates realistic clinical personas (e.g., Randomized Cancer Type + appropriate Regimen).
+- **Live Sync**: Changes in the UI immediately update the backend `patient_data.json`.
 
-### 2. Multi-Agent Voice System
+### 2. Timeline & Visualization
+- **Unified Timeline**: Merges Symptoms, Wellness, and Treatments into a single reverse-chronological stream.
+- **Symptom Chart**: A multi-line chart using `Recharts` to plot severity trends over time.
+- **Treatment Overlays**: Renders vertical **Reference Lines** and **Icons** on the chart to visualize correlation between treatments (e.g., Chemo) and symptom spikes.
+
+### 3. Multi-Agent Voice System
 A suite of specialized AI agents designed for specific clinical workflows.
 
 #### 🏥 Patient-Initiated Symptom Check-In
 *Use Case: Patient calls to report a new problem.*
-- **Input**: Audio recording (simulated via web microphone).
-- **Process**: Transcribes speech and extracts structured clinical data.
-- **Output**:
-    - **Chief Complaint**: "Worsening headaches"
-    - **Symptom Observations**: Severity (8/10), Location (Right Frontal), Impact (Cannot work).
-    - **Triage Analysis**: Automated safety screening and recommendation (Green/Yellow/Red).
+- **Process**: Transcribes speech -> LLM Extraction -> `SymptomEvent`.
+- **Output**: Generates a Triage Analysis (Green/Yellow/Red).
 
 #### 🩺 AI-Initiated Clinical Triage
-*Use Case: Proactive outreach based on reported symptoms or missed check-ins.*
-- **Mode**: Interactive Chat Simulator (Voice/LiveKit ready).
-- **Workflow**:
-    1.  **Safety Screen**: Rule-out emergencies (chest pain, breathlessness).
-    2.  **Assessment**: Drill down into specific symptoms (severity, onset, duration).
-    3.  **Documentation**: Logs the interaction for clinical review.
+*Use Case: Proactive outreach based on reported symptoms.*
+- **Mode**: Interactive Chat Simulator.
+- **Flow**: Safety Screen -> Chief Complaint -> Drill Down.
 
 #### 🧘 Wellness & Goals Check-In
-*Use Case: Longitudinal tracking of Quality of Life (QoL).*
-- **Mode**: Empathetic, conversational AI.
-- **Focus**: Extracts functional status (ECOG changes), emotional well-being (anxiety/mood), and progress towards personal goals (e.g., "Walking the dog").
+*Use Case: Longitudinal tracking of QoL.*
+- **Mode**: Empathetic conversational AI.
+- **Focus**: Mood, Anxiety, Goal Progress.
+
+---
 
 ## 🏗️ Tech Stack
 
 ### Frontend
 - **React + Vite**: Fast, modern UI development.
-- **DaisyUI + Tailwind**: Clean, accessible, and responsive medical-grade components.
-- **Audio**: Web Audio API for browser-based recording.
+- **DaisyUI + Tailwind**: Medical-grade component library.
+- **Recharts**: Complex data visualization for clinical trends.
 
 ### Backend
-- **FastAPI**: High-performance Python API for handling agent logic and data persistence.
-- **Pydantic**: Strict data validation for clinical schemas.
-- **In-Memory Store**: Lightweight state management for rapid prototyping (resets on restart).
+- **FastAPI**: REST API with Pydantic validation.
+- **Persistence**: JSON file-based storage (`store.py`) handling multiple profiles.
+- **Polymorphism**: API endpoints handle `Union[SymptomEvent, WellnessEvent...]` automatically.
 
-### AI & Orchestration (In Progress)
-- **LangGraph**: For managing conversational state machines (e.g., enforcing safety checks before clinical questions).
-- **DSPy**: For optimizing prompts and extraction logic.
-- **LiveKit**: (Planned) For real-time, low-latency voice streaming.
+### AI & Orchestration
+- **LangGraph**: (Setup) For managing conversational state machines.
+- **DSPy**: (Dependency Installed) For optimizing prompts and extraction logic.
 
 ## 🚀 Getting Started
 
@@ -103,9 +162,3 @@ A suite of specialized AI agents designed for specific clinical workflows.
 
 4.  **Access the Console:**
     Open `http://localhost:5173` in your browser.
-
-## 🔮 Future Roadmap
-- [ ] **Real Voice Integration**: Connect backend to LiveKit/Deepgram for real-time speech-to-speech.
-- [ ] **LLM Integration**: Connect mock endpoints to OpenAI/Anthropic via LangGraph.
-- [ ] **Persistence**: Switch from in-memory storage to a vector database (Postgres/pgvector) for long-term memory.
-- [ ] **Timeline Visualization**: A graphical view of symptom trends over time.

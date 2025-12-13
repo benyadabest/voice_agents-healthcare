@@ -9,6 +9,18 @@ export default defineConfig({
       '/profile': {
         target: 'http://127.0.0.1:8000',
         changeOrigin: true,
+      },
+      '/profiles': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+      },
+      '/agent': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+      },
+      '/events': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
       }
     }
   }

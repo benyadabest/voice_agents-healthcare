@@ -1,9 +1,9 @@
 from fastapi import FastAPI, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
-from .schemas import PatientProfile, AgentSession, AgentAnalysis
+from .schemas import PatientProfile, AgentSession, AgentAnalysis, BaseEvent, SymptomEvent, WellnessEvent, TreatmentEvent
 from .store import store
 from .agents.chat_orchestrator import process_chat_message, ChatState
-from typing import List
+from typing import List, Union
 
 app = FastAPI(title="Oncology RPM Console API")
 
@@ -25,13 +25,32 @@ def create_or_update_profile(profile: PatientProfile):
     saved_profile = store.save_profile(profile)
     return saved_profile
 
+@app.get("/profiles", response_model=List[PatientProfile])
+def list_profiles():
+    return store.list_profiles()
+
+@app.post("/profile/switch/{profile_id}", response_model=PatientProfile)
+def switch_profile(profile_id: str):
+    profile = store.switch_profile(profile_id)
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    return profile
+
+@app.delete("/profile/{profile_id}")
+def delete_profile(profile_id: str):
+    success = store.delete_profile(profile_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    return {"message": "Profile deleted successfully"}
+
+@app.post("/profile/new", response_model=PatientProfile)
+def create_new_profile(name: str = Body(..., embed=True)):
+    return store.create_new_profile(name)
+
 @app.get("/profile", response_model=PatientProfile)
 def get_active_profile():
     profile = store.get_active_profile()
     if not profile:
-        # Return a default empty profile structure if none exists, or 404
-        # For a developer console, it's nicer to return a default template
-        # But let's return 404 for now so frontend knows to show "Create New"
         raise HTTPException(status_code=404, detail="No active profile found")
     return profile
 
@@ -135,3 +154,23 @@ def simulate_analysis(agent_type: str = Body(...), transcript: str = Body(...)):
                  "recommendation_level": "green" 
             }
         }
+
+# Timeline Endpoints
+
+@app.post("/events", response_model=Union[SymptomEvent, WellnessEvent, TreatmentEvent, BaseEvent])
+def create_event(event_data: dict = Body(...)):
+    try:
+        return store.add_event(event_data)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.get("/events/{patient_id}", response_model=List[Union[SymptomEvent, WellnessEvent, TreatmentEvent, BaseEvent]])
+def get_patient_events(patient_id: str):
+    return store.get_events(patient_id)
+
+@app.delete("/events/{event_id}")
+def delete_event(event_id: str):
+    success = store.delete_event(event_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Event not found")
+    return {"message": "Event deleted successfully"}
