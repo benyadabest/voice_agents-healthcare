@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getProfile, saveProfile, getProfiles, switchProfile, createNewProfile, deleteProfile } from '../api';
+import { getProfile, saveProfile, getProfiles, switchProfile, createNewProfile, deleteProfile, generateProfileFromDescription } from '../api';
 
 const initialProfile = {
   name: 'John Doe',
@@ -34,6 +34,9 @@ const ProfileBuilder = () => {
   const [localProfile, setLocalProfile] = useState(initialProfile);
   const [showNewProfileModal, setShowNewProfileModal] = useState(false);
   const [newProfileName, setNewProfileName] = useState("");
+  const [useAIGeneration, setUseAIGeneration] = useState(false);
+  const [patientDescription, setPatientDescription] = useState("");
+  const [monthsOfHistory, setMonthsOfHistory] = useState(6);
 
   // Queries
   const { data: profile, isLoading: isProfileLoading } = useQuery({
@@ -94,6 +97,27 @@ const ProfileBuilder = () => {
       queryClient.invalidateQueries({ queryKey: ['profiles'] });
       setShowNewProfileModal(false);
       setNewProfileName("");
+      setUseAIGeneration(false);
+      setPatientDescription("");
+    }
+  });
+
+  const generateMutation = useMutation({
+    mutationFn: ({ description, name, monthsOfHistory }) => generateProfileFromDescription(description, name, monthsOfHistory),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
+      queryClient.invalidateQueries({ queryKey: ['profiles'] });
+      queryClient.invalidateQueries({ queryKey: ['events'] });
+      setShowNewProfileModal(false);
+      setNewProfileName("");
+      setUseAIGeneration(false);
+      setPatientDescription("");
+      setMonthsOfHistory(6);
+    },
+    onError: (error) => {
+      console.error("Failed to generate profile:", error);
+      const errorMessage = error.response?.data?.detail || error.message || "Failed to generate profile. Please check your API key and try again.";
+      alert(`Error: ${errorMessage}`);
     }
   });
 
@@ -126,8 +150,20 @@ const ProfileBuilder = () => {
   };
 
   const handleCreateProfile = () => {
-      if (!newProfileName.trim()) return;
-      createMutation.mutate(newProfileName);
+      if (useAIGeneration) {
+          if (!patientDescription.trim()) {
+              alert("Please provide a patient description for AI generation.");
+              return;
+          }
+          generateMutation.mutate({
+              description: patientDescription,
+              name: newProfileName.trim() || undefined,
+              monthsOfHistory: monthsOfHistory
+          });
+      } else {
+          if (!newProfileName.trim()) return;
+          createMutation.mutate(newProfileName);
+      }
   };
 
   const handleDeleteProfile = () => {
@@ -369,22 +405,90 @@ const ProfileBuilder = () => {
       {/* Create New Profile Modal */}
       {showNewProfileModal && (
           <div className="modal modal-open">
-              <div className="modal-box">
+              <div className="modal-box max-w-2xl">
                   <h3 className="font-bold text-lg">Create New Profile</h3>
+                  
                   <div className="form-control w-full mt-4">
-                      <label className="label"><span className="label-text">Patient Name</span></label>
-                      <input 
-                        type="text" 
-                        className="input input-bordered w-full" 
-                        placeholder="e.g. Jane Doe"
-                        value={newProfileName}
-                        onChange={(e) => setNewProfileName(e.target.value)}
-                        autoFocus
-                      />
+                      <label className="label cursor-pointer justify-start gap-2">
+                          <input 
+                            type="checkbox" 
+                            className="checkbox checkbox-primary" 
+                            checked={useAIGeneration}
+                            onChange={(e) => setUseAIGeneration(e.target.checked)}
+                          />
+                          <span className="label-text font-semibold">Generate with AI (describe patient)</span>
+                      </label>
                   </div>
+
+                  {useAIGeneration ? (
+                      <>
+                          <div className="form-control w-full mt-4">
+                              <label className="label"><span className="label-text">Patient Name (Optional)</span></label>
+                              <input 
+                                type="text" 
+                                className="input input-bordered w-full" 
+                                placeholder="e.g. Jane Doe (leave blank to auto-generate)"
+                                value={newProfileName}
+                                onChange={(e) => setNewProfileName(e.target.value)}
+                              />
+                          </div>
+                          <div className="form-control w-full mt-4">
+                              <label className="label"><span className="label-text">Patient Description</span></label>
+                              <textarea 
+                                className="textarea textarea-bordered h-32" 
+                                placeholder="Describe the patient: diagnosis, stage, treatment regimen, notable symptoms, lifestyle, concerns, etc. Example: '65-year-old female with Stage IIIB lung adenocarcinoma, currently on Carboplatin + Pemetrexed. Experiencing fatigue and occasional nausea. Former smoker, quit 5 years ago. Concerned about treatment side effects affecting daily activities.'"
+                                value={patientDescription}
+                                onChange={(e) => setPatientDescription(e.target.value)}
+                                autoFocus
+                              />
+                          </div>
+                          <div className="form-control w-full mt-2">
+                              <label className="label"><span className="label-text">Months of History to Generate</span></label>
+                              <input 
+                                type="number" 
+                                className="input input-bordered w-full" 
+                                min="1" 
+                                max="24" 
+                                value={monthsOfHistory}
+                                onChange={(e) => setMonthsOfHistory(parseInt(e.target.value) || 6)}
+                              />
+                          </div>
+                      </>
+                  ) : (
+                      <div className="form-control w-full mt-4">
+                          <label className="label"><span className="label-text">Patient Name</span></label>
+                          <input 
+                            type="text" 
+                            className="input input-bordered w-full" 
+                            placeholder="e.g. Jane Doe"
+                            value={newProfileName}
+                            onChange={(e) => setNewProfileName(e.target.value)}
+                            autoFocus
+                          />
+                      </div>
+                  )}
+
                   <div className="modal-action">
-                      <button className="btn" onClick={() => setShowNewProfileModal(false)}>Cancel</button>
-                      <button className="btn btn-primary" onClick={handleCreateProfile}>Create</button>
+                      <button className="btn" onClick={() => {
+                          setShowNewProfileModal(false);
+                          setUseAIGeneration(false);
+                          setPatientDescription("");
+                          setNewProfileName("");
+                      }}>Cancel</button>
+                      <button 
+                        className="btn btn-primary" 
+                        onClick={handleCreateProfile}
+                        disabled={createMutation.isPending || generateMutation.isPending}
+                      >
+                          {(createMutation.isPending || generateMutation.isPending) ? (
+                              <>
+                                  <span className="loading loading-spinner loading-xs"></span>
+                                  {useAIGeneration ? 'Generating...' : 'Creating...'}
+                              </>
+                          ) : (
+                              useAIGeneration ? 'Generate with AI' : 'Create'
+                          )}
+                      </button>
                   </div>
               </div>
           </div>

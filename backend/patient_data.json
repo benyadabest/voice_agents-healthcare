@@ -1,0 +1,979 @@
+{
+  "profiles": {
+    "default": {
+      "id": "default",
+      "name": "John Doe",
+      "age": 51,
+      "gender": "Female",
+      "race": "Caucasian",
+      "height": "6'3\"",
+      "weight": "209 lbs",
+      "city": "Boston",
+      "state": "MA",
+      "cancer_type": "Colorectal Adenocarcinoma",
+      "diagnosis_date": "2024-01-15",
+      "first_occurrence": true,
+      "stage": "IIIA",
+      "measurable_disease": {
+        "is_measurable": true,
+        "description": "Primary mass in sigmoid colon, approx 5cm"
+      },
+      "tumor_markers_found": [
+        "CEA",
+        "CA-125"
+      ],
+      "tumor_markers_ruled_out": [
+        "KRAS"
+      ],
+      "family_history": "Father: Lung Cancer (Smoker)\nMother: No cancer history",
+      "prior_therapies": [],
+      "current_treatment": {
+        "is_active": true,
+        "regimen": "Carboplatin + Pemetrexed"
+      },
+      "ecog_score": 2,
+      "smoking_history": {
+        "pack_years": 15.0,
+        "quit_date": "2020-01-01"
+      },
+      "alcohol_consumption": "Occasional social drinker",
+      "concerns": "Worried about fatigue affecting work.",
+      "prognosis_preference": "neutral",
+      "medical_records_text": "Pathology confirmed Colorectal Adenocarcinoma. Patient initiated on Carboplatin + Pemetrexed. Tolerating well so far."
+    },
+    "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348": {
+      "id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+      "name": "Sarah Jane",
+      "age": 81,
+      "gender": "Female",
+      "race": "Asian",
+      "height": "6'0\"",
+      "weight": "193 lbs",
+      "city": "Boston",
+      "state": "MA",
+      "cancer_type": "Lung Adenocarcinoma",
+      "diagnosis_date": "2024-01-15",
+      "first_occurrence": true,
+      "stage": "IIB",
+      "measurable_disease": {
+        "is_measurable": true,
+        "description": "Primary mass in sigmoid colon, approx 2cm"
+      },
+      "tumor_markers_found": [
+        "CEA",
+        "PD-L1 > 50%"
+      ],
+      "tumor_markers_ruled_out": [
+        "EGFR",
+        "ALK"
+      ],
+      "family_history": "Father: Lung Cancer (Smoker)\nMother: No cancer history",
+      "prior_therapies": [],
+      "current_treatment": {
+        "is_active": true,
+        "regimen": "AC-T (Doxorubicin + Cyclophosphamide -> Paclitaxel)"
+      },
+      "ecog_score": 1,
+      "smoking_history": {
+        "pack_years": 25.0,
+        "quit_date": "2020-01-01"
+      },
+      "alcohol_consumption": "Occasional social drinker",
+      "concerns": "Worried about fatigue affecting work.",
+      "prognosis_preference": "neutral",
+      "medical_records_text": "Pathology confirmed Lung Adenocarcinoma. Patient initiated on AC-T (Doxorubicin + Cyclophosphamide -> Paclitaxel). Tolerating well so far."
+    },
+    "52b3f27c-b8dc-4729-ba98-c06fc51746bd": {
+      "id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+      "name": "Tyrone Stevenson",
+      "age": 28,
+      "gender": "Male",
+      "race": "Hispanic",
+      "height": "5'11\"",
+      "weight": "175 lbs",
+      "city": "Austin",
+      "state": "TX",
+      "cancer_type": "Non-seminomatous germ cell tumor",
+      "diagnosis_date": "2024-12-15",
+      "first_occurrence": true,
+      "stage": "IIB",
+      "measurable_disease": {
+        "is_measurable": true,
+        "description": "Retroperitoneal lymph nodes measuring 3.2 x 2.8 cm"
+      },
+      "tumor_markers_found": [
+        "AFP",
+        "beta-hCG"
+      ],
+      "tumor_markers_ruled_out": [
+        "LDH"
+      ],
+      "family_history": "No known family history of testicular or other cancers. Father has diabetes, mother has hypertension.",
+      "prior_therapies": [
+        {
+          "regimen": "Radical orchiectomy",
+          "start_date": "2024-12-20",
+          "end_date": "2024-12-20"
+        }
+      ],
+      "current_treatment": {
+        "is_active": true,
+        "regimen": "BEP (Bleomycin, Etoposide, Cisplatin)"
+      },
+      "ecog_score": 1,
+      "smoking_history": {
+        "pack_years": 0.0,
+        "quit_date": null
+      },
+      "alcohol_consumption": "Social drinking, 2-3 drinks per week",
+      "concerns": "Worried about fertility preservation and impact on relationship, experiencing fatigue but maintaining high libido which is confusing",
+      "prognosis_preference": "show_stats",
+      "medical_records_text": "28-year-old Hispanic male diagnosed with stage IIB non-seminomatous germ cell tumor following right radical orchiectomy. Elevated AFP and beta-hCG at diagnosis. Currently undergoing standard BEP chemotherapy regimen. Patient reports paradoxical combination of low energy levels with maintained high libido. Good performance status with ECOG 1. Compliant with treatment schedule and monitoring."
+    }
+  },
+  "sessions": [],
+  "events": {
+    "default": [
+      {
+        "id": "fe0de48c-949f-4f6f-b2fa-c8acc3bc2e89",
+        "patient_id": "default",
+        "timestamp": "2025-12-25T04:05:43.349309Z",
+        "event_type": "workflow_result",
+        "source": "voice",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "workflow_name": "symptom_triage",
+        "route": "yellow",
+        "patient_summary": "Test summary",
+        "clinician_summary": "Test clinician summary",
+        "escalation_trigger": "Test trigger",
+        "safety_flags": [],
+        "triage_confidence": 0.99,
+        "structured_payload": null,
+        "signals": []
+      }
+    ],
+    "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348": [
+      {
+        "id": "b8eb6673-0427-49ea-81a1-b65da9d80a9c",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-11T06:20:14.995Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "Headache",
+            "severity": {
+              "value": 8,
+              "scale": "0_10",
+              "label": "user_reported"
+            },
+            "frequency": null,
+            "trend": "stable",
+            "rawAnswer": "N/A"
+          }
+        ]
+      },
+      {
+        "id": "18a3da3a-3e7d-48c5-be39-70bb25adfaf3",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-11T06:20:41.496Z",
+        "event_type": "wellness",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 5,
+        "anxiety": 1,
+        "notes": "N/A"
+      },
+      {
+        "id": "6e550be1-2342-4f5e-83fc-225112c5c481",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-11T06:28:10.194Z",
+        "event_type": "treatment",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "name": "Chemotherapy",
+        "description": "N/A",
+        "start_timestamp": null,
+        "end_timestamp": null
+      },
+      {
+        "id": "86cadf7f-f657-4549-b950-64b96f2b0d59",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-11T06:28:33.565Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "Headache",
+            "severity": {
+              "value": 3,
+              "scale": "0_10",
+              "label": "user_reported"
+            },
+            "frequency": null,
+            "trend": "improving",
+            "rawAnswer": "N/A"
+          }
+        ]
+      },
+      {
+        "id": "30010061-2994-4f3e-93e1-a7cf91ace838",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-13T01:56:01.104Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "High Libido",
+            "severity": {
+              "value": 8,
+              "scale": "0_10",
+              "label": "user_reported"
+            },
+            "frequency": null,
+            "trend": "worsening",
+            "rawAnswer": "N/A"
+          }
+        ]
+      },
+      {
+        "id": "e84a7d3f-504e-4390-885d-c6b884e9cb97",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-13T02:24:17.935Z",
+        "event_type": "treatment",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "name": "Tylenol",
+        "description": "N/A",
+        "start_timestamp": null,
+        "end_timestamp": null
+      },
+      {
+        "id": "0aa66f27-e884-4367-b1c5-08a492f01828",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-13T02:24:45.804Z",
+        "event_type": "wellness",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 5,
+        "anxiety": 6,
+        "notes": "N/A"
+      },
+      {
+        "id": "8d775737-cc15-44b9-aeea-ebf07b2c1124",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-25T02:14:48.410457Z",
+        "event_type": "symptom",
+        "source": "voice",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "Test Headache",
+            "severity": {
+              "value": 5,
+              "scale": "0_10",
+              "label": "user_reported"
+            },
+            "frequency": null,
+            "trend": "stable",
+            "rawAnswer": "Test from verification"
+          }
+        ]
+      },
+      {
+        "id": "7e9e7acf-fd28-4add-b9fe-0a739cd99f21",
+        "patient_id": "48ec7c2c-54ea-4ac4-b7d2-3e0811f35348",
+        "timestamp": "2025-12-25T02:14:48.411288Z",
+        "event_type": "wellness",
+        "source": "voice",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 4,
+        "anxiety": 3,
+        "notes": "Feeling okay today"
+      }
+    ],
+    "52b3f27c-b8dc-4729-ba98-c06fc51746bd": [
+      {
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-06-27T09:00:00Z",
+        "event_type": "treatment",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "name": "BEP Cycle 2 Day 1",
+        "description": "Bleomycin 30 units, Etoposide 100mg/m2, Cisplatin 20mg/m2",
+        "start_timestamp": "2025-06-27T09:00:00Z",
+        "end_timestamp": "2025-06-27T14:30:00Z"
+      },
+      {
+        "id": "b2c3d4e5-f6g7-8901-bcde-f23456789012",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-06-28T19:00:00Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "fatigue",
+            "severity": {
+              "value": 7,
+              "scale": "0_10",
+              "label": null
+            },
+            "frequency": null,
+            "trend": "worsening",
+            "rawAnswer": "Really wiped out after chemo yesterday"
+          },
+          {
+            "name": "nausea",
+            "severity": {
+              "value": 5,
+              "scale": "0_10",
+              "label": null
+            },
+            "frequency": null,
+            "trend": "stable",
+            "rawAnswer": null
+          }
+        ]
+      },
+      {
+        "id": "c3d4e5f6-g7h8-9012-cdef-345678901234",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-07-02T10:30:00Z",
+        "event_type": "wellness",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 3,
+        "anxiety": 4,
+        "notes": "Feeling better this week, energy slowly returning"
+      },
+      {
+        "id": "d4e5f6g7-h8i9-0123-defg-456789012345",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-07-04T09:00:00Z",
+        "event_type": "treatment",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "name": "BEP Cycle 2 Day 8",
+        "description": "Etoposide 100mg/m2, Cisplatin 20mg/m2",
+        "start_timestamp": "2025-07-04T09:00:00Z",
+        "end_timestamp": "2025-07-04T13:00:00Z"
+      },
+      {
+        "id": "e5f6g7h8-i9j0-1234-efgh-567890123456",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-07-05T16:45:00Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "fatigue",
+            "severity": {
+              "value": 6,
+              "scale": "0_10",
+              "label": null
+            },
+            "frequency": null,
+            "trend": "improving",
+            "rawAnswer": null
+          },
+          {
+            "name": "peripheral_neuropathy",
+            "severity": {
+              "value": 3,
+              "scale": "0_10",
+              "label": null
+            },
+            "frequency": null,
+            "trend": "worsening",
+            "rawAnswer": "Slight tingling in fingertips"
+          }
+        ]
+      },
+      {
+        "id": "f6g7h8i9-j0k1-2345-fghi-678901234567",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-07-09T14:20:00Z",
+        "event_type": "wellness",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 4,
+        "anxiety": 3,
+        "notes": "Good week overall, libido still high despite fatigue which is strange but not complaining"
+      },
+      {
+        "id": "g7h8i9j0-k1l2-3456-ghij-789012345678",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-07-11T09:00:00Z",
+        "event_type": "treatment",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "name": "BEP Cycle 2 Day 15",
+        "description": "Etoposide 100mg/m2, Cisplatin 20mg/m2",
+        "start_timestamp": "2025-07-11T09:00:00Z",
+        "end_timestamp": "2025-07-11T13:00:00Z"
+      },
+      {
+        "id": "h8i9j0k1-l2m3-4567-hijk-890123456789",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-07-12T20:00:00Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "fatigue",
+            "severity": {
+              "value": 8,
+              "scale": "0_10",
+              "label": null
+            },
+            "frequency": null,
+            "trend": "worsening",
+            "rawAnswer": null
+          },
+          {
+            "name": "nausea",
+            "severity": {
+              "value": 4,
+              "scale": "0_10",
+              "label": null
+            },
+            "frequency": null,
+            "trend": "stable",
+            "rawAnswer": null
+          }
+        ]
+      },
+      {
+        "id": "i9j0k1l2-m3n4-5678-ijkl-901234567890",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-07-16T11:15:00Z",
+        "event_type": "wellness",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 3,
+        "anxiety": 2,
+        "notes": "Recovery getting easier with each cycle"
+      },
+      {
+        "id": "j0k1l2m3-n4o5-6789-jklm-012345678901",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-07-18T09:00:00Z",
+        "event_type": "treatment",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "name": "BEP Cycle 3 Day 1",
+        "description": "Bleomycin 30 units, Etoposide 100mg/m2, Cisplatin 20mg/m2",
+        "start_timestamp": "2025-07-18T09:00:00Z",
+        "end_timestamp": "2025-07-18T14:30:00Z"
+      },
+      {
+        "id": "k1l2m3n4-o5p6-7890-klmn-123456789012",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-07-19T18:30:00Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "fatigue",
+            "severity": {
+              "value": 7,
+              "scale": "0_10",
+              "label": null
+            },
+            "frequency": null,
+            "trend": "worsening",
+            "rawAnswer": null
+          },
+          {
+            "name": "peripheral_neuropathy",
+            "severity": {
+              "value": 4,
+              "scale": "0_10",
+              "label": null
+            },
+            "frequency": null,
+            "trend": "worsening",
+            "rawAnswer": "Numbness spreading to toes"
+          }
+        ]
+      },
+      {
+        "id": "l2m3n4o5-p6q7-8901-lmno-234567890123",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-07-23T13:45:00Z",
+        "event_type": "wellness",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 4,
+        "anxiety": 3,
+        "notes": "Halfway through treatment, staying positive"
+      },
+      {
+        "id": "m3n4o5p6-q7r8-9012-mnop-345678901234",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-08-01T09:00:00Z",
+        "event_type": "treatment",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "name": "BEP Cycle 3 Day 15",
+        "description": "Final cycle day 15 - Etoposide 100mg/m2, Cisplatin 20mg/m2",
+        "start_timestamp": "2025-08-01T09:00:00Z",
+        "end_timestamp": "2025-08-01T13:00:00Z"
+      },
+      {
+        "id": "n4o5p6q7-r8s9-0123-nopq-456789012345",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-08-02T17:00:00Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "fatigue",
+            "severity": {
+              "value": 9,
+              "scale": "0_10",
+              "label": null
+            },
+            "frequency": null,
+            "trend": "worsening",
+            "rawAnswer": "Exhausted but relieved this is the last cycle"
+          }
+        ]
+      },
+      {
+        "id": "o5p6q7r8-s9t0-1234-opqr-567890123456",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-08-07T12:00:00Z",
+        "event_type": "wellness",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 4,
+        "anxiety": 2,
+        "notes": "Treatment complete! Feeling hopeful despite fatigue"
+      },
+      {
+        "id": "p6q7r8s9-t0u1-2345-pqrs-678901234567",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-08-14T15:30:00Z",
+        "event_type": "wellness",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 5,
+        "anxiety": 1,
+        "notes": "Energy slowly returning, looking forward to scans"
+      },
+      {
+        "id": "q7r8s9t0-u1v2-3456-qrst-789012345678",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-08-20T10:15:00Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "fatigue",
+            "severity": {
+              "value": 5,
+              "scale": "0_10",
+              "label": null
+            },
+            "frequency": null,
+            "trend": "improving",
+            "rawAnswer": null
+          },
+          {
+            "name": "peripheral_neuropathy",
+            "severity": {
+              "value": 4,
+              "scale": "0_10",
+              "label": null
+            },
+            "frequency": null,
+            "trend": "stable",
+            "rawAnswer": "Still some numbness but not getting worse"
+          }
+        ]
+      },
+      {
+        "id": "r8s9t0u1-v2w3-4567-rstu-890123456789",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-09-03T14:00:00Z",
+        "event_type": "wellness",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 5,
+        "anxiety": 1,
+        "notes": "Great scan results! Tumor markers down significantly"
+      },
+      {
+        "id": "s9t0u1v2-w3x4-5678-stuv-901234567890",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-09-15T16:45:00Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "fatigue",
+            "severity": {
+              "value": 3,
+              "scale": "0_10",
+              "label": null
+            },
+            "frequency": null,
+            "trend": "improving",
+            "rawAnswer": null
+          }
+        ]
+      },
+      {
+        "id": "t0u1v2w3-x4y5-6789-tuvw-012345678901",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-10-01T11:30:00Z",
+        "event_type": "wellness",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 5,
+        "anxiety": 1,
+        "notes": "Feeling almost back to normal, relationship stronger than ever"
+      },
+      {
+        "id": "u1v2w3x4-y5z6-7890-uvwx-123456789012",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-12-24T09:00:00Z",
+        "event_type": "wellness",
+        "source": "manual",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "mood": 5,
+        "anxiety": 0,
+        "notes": "6 months post-treatment, feeling great. Tumor markers undetectable. Grateful for this Christmas"
+      },
+      {
+        "id": "a6cfe740-20e2-4aab-859d-bb36afa8e089",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-12-25T04:02:31.399108Z",
+        "event_type": "symptom",
+        "source": "voice",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "Headache",
+            "severity": {
+              "value": 7,
+              "scale": "0_10",
+              "label": "user_reported"
+            },
+            "frequency": null,
+            "trend": "worsening",
+            "rawAnswer": "Persistent throbbing"
+          }
+        ]
+      },
+      {
+        "id": "6ecd772a-ac1a-4fc0-a6d6-5dea82eeebb3",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-12-25T04:02:31.400158Z",
+        "event_type": "workflow_result",
+        "source": "voice",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "workflow_name": "symptom_triage",
+        "route": "yellow",
+        "patient_summary": "We've noted your headache. A nurse will review this shortly.",
+        "clinician_summary": "Headache severity 7/10. Matches 'yellow' threshold (severity >= 4).",
+        "escalation_trigger": "Severity 7/10 and worsening trend",
+        "safety_flags": [
+          "worsening_trend"
+        ],
+        "triage_confidence": 0.95,
+        "structured_payload": null,
+        "signals": []
+      },
+      {
+        "id": "31c66872-50af-4ffa-ae2b-7c64dcc766f0",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-12-25T04:02:31.400798Z",
+        "event_type": "symptom",
+        "source": "voice",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "Headache",
+            "severity": {
+              "value": 7,
+              "scale": "0_10",
+              "label": "user_reported"
+            },
+            "frequency": null,
+            "trend": null,
+            "rawAnswer": null
+          }
+        ]
+      },
+      {
+        "id": "4f08abf8-bef6-4e13-b9b3-5b9ac2584652",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-12-25T04:02:31.401629Z",
+        "event_type": "workflow_result",
+        "source": "voice",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "workflow_name": "symptom_triage",
+        "route": "yellow",
+        "patient_summary": "Logged your Headache. A nurse will review.",
+        "clinician_summary": "Matched protocol: General Oncology Triage. Rule triggered: severity >= 5",
+        "escalation_trigger": "severity >= 5",
+        "safety_flags": [],
+        "triage_confidence": 1.0,
+        "structured_payload": null,
+        "signals": []
+      },
+      {
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2026-01-03T12:00:00Z",
+        "event_type": "symptom",
+        "source": "manual",
+        "confidence": 0.9,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "headache",
+            "severity": {
+              "value": 6,
+              "scale": "0_10",
+              "label": null
+            },
+            "frequency": null,
+            "trend": "stable",
+            "rawAnswer": "Had a headache yesterday, severity 6"
+          }
+        ]
+      },
+      {
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2026-01-02T23:00:00Z",
+        "event_type": "lifestyle",
+        "source": "manual",
+        "confidence": 0.9,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "name": "poor sleep quality",
+        "category": "sleep",
+        "description": "Slept poorly",
+        "notes": "Part of 3-night pattern of poor sleep"
+      },
+      {
+        "id": "b2c3d4e5-f6g7-8901-bcde-f23456789012",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2026-01-03T23:00:00Z",
+        "event_type": "lifestyle",
+        "source": "manual",
+        "confidence": 0.9,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "name": "poor sleep quality",
+        "category": "sleep",
+        "description": "Slept poorly",
+        "notes": "Part of 3-night pattern of poor sleep"
+      },
+      {
+        "id": "c3d4e5f6-g7h8-9012-cdef-345678901234",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2026-01-04T23:00:00Z",
+        "event_type": "lifestyle",
+        "source": "manual",
+        "confidence": 0.9,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "name": "poor sleep quality",
+        "category": "sleep",
+        "description": "Slept poorly",
+        "notes": "Part of 3-night pattern of poor sleep"
+      },
+      {
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2025-12-31T00:00:00Z",
+        "event_type": "lifestyle",
+        "source": "manual",
+        "confidence": 0.9,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "name": "Started intermittent fasting",
+        "category": "diet",
+        "description": "Began intermittent fasting routine",
+        "notes": "Started on Tuesday"
+      },
+      {
+        "id": "b0d46fbc-18d9-4d46-ada1-4fd4c7997186",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "timestamp": "2026-01-04T17:16:18.614195Z",
+        "event_type": "symptom",
+        "source": "voice",
+        "confidence": 1.0,
+        "derived_from": [],
+        "schema_version": "1.0",
+        "correlation_id": null,
+        "measurements": [
+          {
+            "name": "Headache",
+            "severity": {
+              "value": 2,
+              "scale": "0_10",
+              "label": "user_reported"
+            },
+            "frequency": null,
+            "trend": "improving",
+            "rawAnswer": "Patient reports headache is \"much better\" than previously"
+          }
+        ]
+      }
+    ]
+  },
+  "annotations": {
+    "52b3f27c-b8dc-4729-ba98-c06fc51746bd": [
+      {
+        "id": "8341e4a7-ea1d-4086-9046-812b6ac112a9",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "title": "test",
+        "start_timestamp": "2025-12-29T00:00:00.000Z",
+        "end_timestamp": "2025-12-29T00:00:00.000Z",
+        "text": "test",
+        "color": "#10B981",
+        "created_at": "2025-12-29T04:39:33.251Z"
+      },
+      {
+        "id": "2d43637f-13a8-488e-95f2-e3fb6debf4ce",
+        "patient_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd",
+        "title": "test2",
+        "start_timestamp": "2025-12-27T00:00:00.000Z",
+        "end_timestamp": "2025-12-29T00:00:00.000Z",
+        "text": "test2",
+        "color": "#8B5CF6",
+        "created_at": "2025-12-29T04:39:49.477Z"
+      }
+    ]
+  },
+  "saved_views": {},
+  "active_profile_id": "52b3f27c-b8dc-4729-ba98-c06fc51746bd"
+}

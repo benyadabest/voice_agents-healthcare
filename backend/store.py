@@ -1,10 +1,16 @@
-from .schemas import PatientProfile, AgentSession, MeasurableDisease, CurrentTreatment, SmokingHistory, BaseEvent, SymptomEvent, WellnessEvent, TreatmentEvent, WorkflowResultEvent, EventType, EventSource
+from schemas import (
+    PatientProfile, AgentSession, MeasurableDisease, CurrentTreatment, SmokingHistory,
+    BaseEvent, SymptomEvent, WellnessEvent, TreatmentEvent, WorkflowResultEvent, LifestyleEvent,
+    EventType, EventSource, FollowupTask, TaskStatus,
+    Annotation, SavedView, ViewFilters
+)
 import uuid
 import json
 import os
 import random
-from datetime import datetime
-from typing import List, Dict
+from datetime import datetime, timedelta
+from typing import List, Dict, Optional
+from dateutil import parser as dateparser
 
 DATA_FILE = "patient_data.json"
 
@@ -14,6 +20,9 @@ class PatientStore:
         self._active_profile_id = "default"
         self._sessions: List[AgentSession] = [] 
         self._events: Dict[str, List[BaseEvent]] = {} # patient_id -> list of events
+        self._followup_tasks: Dict[str, List[FollowupTask]] = {} # patient_id -> list of tasks (mocked/in-memory)
+        self._annotations: Dict[str, List[Annotation]] = {} # patient_id -> list of annotations
+        self._saved_views: Dict[str, List[SavedView]] = {} # patient_id -> list of saved views
         self.load_data()
 
     def load_data(self):
@@ -41,8 +50,18 @@ class PatientStore:
                                 self._events[pid].append(TreatmentEvent(**e))
                             elif e["event_type"] == EventType.WORKFLOW_RESULT:
                                 self._events[pid].append(WorkflowResultEvent(**e))
+                            elif e["event_type"] == EventType.LIFESTYLE:
+                                self._events[pid].append(LifestyleEvent(**e))
                             else:
                                 self._events[pid].append(BaseEvent(**e))
+                    
+                    # Load Annotations
+                    for pid, annotations in data.get("annotations", {}).items():
+                        self._annotations[pid] = [Annotation(**a) for a in annotations]
+                    
+                    # Load Saved Views
+                    for pid, views in data.get("saved_views", {}).items():
+                        self._saved_views[pid] = [SavedView(**v) for v in views]
                     
                     # Load Active ID
                     self._active_profile_id = data.get("active_profile_id", "default")
@@ -57,10 +76,20 @@ class PatientStore:
         for pid, events in self._events.items():
             events_dict[pid] = [e.dict() for e in events]
 
+        annotations_dict = {}
+        for pid, annotations in self._annotations.items():
+            annotations_dict[pid] = [a.dict() for a in annotations]
+
+        views_dict = {}
+        for pid, views in self._saved_views.items():
+            views_dict[pid] = [v.dict() for v in views]
+
         data = {
             "profiles": {pid: p.dict() for pid, p in self._profiles.items()},
             "sessions": [s.dict() for s in self._sessions],
             "events": events_dict,
+            "annotations": annotations_dict,
+            "saved_views": views_dict,
             "active_profile_id": self._active_profile_id
         }
         with open(DATA_FILE, "w") as f:
@@ -93,6 +122,17 @@ class PatientStore:
             self.save_data()
             return True
         return False
+
+    def create_profile_with_events(self, profile: PatientProfile, events: List[BaseEvent]) -> PatientProfile:
+        """
+        Create a new profile and attach a list of events to it.
+        Used for LLM-generated profiles.
+        """
+        self._profiles[profile.id] = profile
+        self._active_profile_id = profile.id
+        self._events[profile.id] = events
+        self.save_data()
+        return profile
 
     def create_new_profile(self, name: str, is_default=False) -> PatientProfile:
         new_id = "default" if is_default else str(uuid.uuid4())
@@ -201,6 +241,8 @@ class PatientStore:
             event = TreatmentEvent(**event_data)
         elif event_data.get("event_type") == EventType.WORKFLOW_RESULT:
             event = WorkflowResultEvent(**event_data)
+        elif event_data.get("event_type") == EventType.LIFESTYLE:
+            event = LifestyleEvent(**event_data)
         else:
             event = BaseEvent(**event_data)
             
@@ -218,6 +260,144 @@ class PatientStore:
             for i, event in enumerate(events):
                 if event.id == event_id:
                     self._events[pid].pop(i)
+                    self.save_data()
+                    return True
+        return False
+
+    def get_recent_events(
+        self, 
+        patient_id: str, 
+        window_hours: int = 168,  # Default 7 days
+        event_types: Optional[List[EventType]] = None
+    ) -> List[BaseEvent]:
+        """
+        Get events within a time window for trend detection.
+        
+        Args:
+            patient_id: The patient to query events for
+            window_hours: How far back to look (default 168 = 7 days)
+            event_types: Optional filter for specific event types
+            
+        Returns:
+            List of events within the window, sorted by timestamp (newest first)
+        """
+        events = self._events.get(patient_id, [])
+        if not events:
+            return []
+        
+        cutoff = datetime.utcnow() - timedelta(hours=window_hours)
+        
+        filtered = []
+        for event in events:
+            try:
+                event_time = dateparser.parse(event.timestamp)
+                # Make timezone-naive for comparison if needed
+                if event_time.tzinfo is not None:
+                    event_time = event_time.replace(tzinfo=None)
+                if event_time >= cutoff:
+                    if event_types is None or event.event_type in event_types:
+                        filtered.append(event)
+            except (ValueError, TypeError):
+                # Skip events with invalid timestamps
+                continue
+        
+        return sorted(filtered, key=lambda x: x.timestamp, reverse=True)
+
+    # Followup Task Methods (Mocked - In-Memory Only)
+    
+    def add_followup_task(self, task: FollowupTask) -> FollowupTask:
+        """
+        Add a follow-up task for clinician review.
+        Note: Currently mocked - tasks are in-memory only and not persisted.
+        """
+        patient_id = task.patient_id
+        if patient_id not in self._followup_tasks:
+            self._followup_tasks[patient_id] = []
+        
+        self._followup_tasks[patient_id].append(task)
+        return task
+    
+    def get_followup_tasks(
+        self, 
+        patient_id: str, 
+        status: Optional[TaskStatus] = None
+    ) -> List[FollowupTask]:
+        """
+        Get follow-up tasks for a patient.
+        
+        Args:
+            patient_id: The patient to query tasks for
+            status: Optional filter by task status
+            
+        Returns:
+            List of tasks, sorted by urgency (stat > urgent > routine)
+        """
+        tasks = self._followup_tasks.get(patient_id, [])
+        
+        if status is not None:
+            tasks = [t for t in tasks if t.status == status]
+        
+        # Sort by urgency priority
+        urgency_order = {"stat": 0, "urgent": 1, "routine": 2}
+        return sorted(tasks, key=lambda t: urgency_order.get(t.urgency.value, 99))
+    
+    def update_task_status(self, task_id: str, new_status: TaskStatus) -> Optional[FollowupTask]:
+        """Update the status of a follow-up task."""
+        for patient_tasks in self._followup_tasks.values():
+            for task in patient_tasks:
+                if task.id == task_id:
+                    task.status = new_status
+                    return task
+        return None
+
+    # Annotation Methods
+    
+    def add_annotation(self, annotation: Annotation) -> Annotation:
+        """Add an annotation to the store."""
+        patient_id = annotation.patient_id
+        if patient_id not in self._annotations:
+            self._annotations[patient_id] = []
+        
+        self._annotations[patient_id].append(annotation)
+        self.save_data()
+        return annotation
+    
+    def get_annotations(self, patient_id: str) -> List[Annotation]:
+        """Get all annotations for a patient."""
+        return self._annotations.get(patient_id, [])
+    
+    def delete_annotation(self, annotation_id: str) -> bool:
+        """Delete an annotation by ID."""
+        for pid, annotations in self._annotations.items():
+            for i, annotation in enumerate(annotations):
+                if annotation.id == annotation_id:
+                    self._annotations[pid].pop(i)
+                    self.save_data()
+                    return True
+        return False
+
+    # Saved View Methods
+    
+    def add_saved_view(self, view: SavedView) -> SavedView:
+        """Add a saved view to the store."""
+        patient_id = view.patient_id
+        if patient_id not in self._saved_views:
+            self._saved_views[patient_id] = []
+        
+        self._saved_views[patient_id].append(view)
+        self.save_data()
+        return view
+    
+    def get_saved_views(self, patient_id: str) -> List[SavedView]:
+        """Get all saved views for a patient."""
+        return self._saved_views.get(patient_id, [])
+    
+    def delete_saved_view(self, view_id: str) -> bool:
+        """Delete a saved view by ID."""
+        for pid, views in self._saved_views.items():
+            for i, view in enumerate(views):
+                if view.id == view_id:
+                    self._saved_views[pid].pop(i)
                     self.save_data()
                     return True
         return False

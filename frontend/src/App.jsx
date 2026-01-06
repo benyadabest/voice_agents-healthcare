@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import ProfileBuilder from './components/ProfileBuilder';
-import VoiceAgents from './components/agents/VoiceAgents';
+import HealthChat from './components/agents/HealthChat';
 import Timeline from './components/timeline/Timeline';
 import { getProfile } from './api';
 
@@ -28,28 +28,28 @@ function App() {
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
             <li>
-                <a 
-                    className={currentView === 'profile' ? 'active' : ''} 
+                <button 
+                    className={`btn btn-ghost ${currentView === 'profile' ? 'btn-active' : ''}`} 
                     onClick={() => setCurrentView('profile')}
                 >
                     Patient Profile
-                </a>
+                </button>
             </li>
             <li>
-                <a 
-                    className={currentView === 'agents' ? 'active' : ''} 
+                <button 
+                    className={`btn btn-ghost ${currentView === 'agents' ? 'btn-active' : ''}`} 
                     onClick={() => setCurrentView('agents')}
                 >
-                    Voice Agents
-                </a>
+                    Health Chat
+                </button>
             </li>
             <li>
-                <a 
-                    className={currentView === 'timeline' ? 'active' : ''} 
+                <button 
+                    className={`btn btn-ghost ${currentView === 'timeline' ? 'btn-active' : ''}`} 
                     onClick={() => setCurrentView('timeline')}
                 >
                     Timeline
-                </a>
+                </button>
             </li>
           </ul>
         </div>
@@ -58,7 +58,7 @@ function App() {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-4 flex-1 min-h-0">
         {currentView === 'profile' && <ProfileBuilder />}
-        {currentView === 'agents' && <VoiceAgents />}
+        {currentView === 'agents' && <HealthChat patientId={currentPatientId} />}
         {currentView === 'timeline' && <Timeline patientId={currentPatientId} />}
       </div>
     </div>

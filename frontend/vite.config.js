@@ -21,6 +21,22 @@ export default defineConfig({
       '/events': {
         target: 'http://127.0.0.1:8000',
         changeOrigin: true,
+      },
+      '/annotations': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+      },
+      '/views': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+      },
+      '/voice': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+      },
+      '/chat': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
       }
     }
   }
